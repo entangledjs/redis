@@ -6,13 +6,13 @@
 var redis = require('redis');
 
 /**
- * Expose `Client`.
+ * Expose `Driver`.
  */
 
-module.exports = Client;
+module.exports = Driver;
 
 /**
- * Initialize a redis client with
+ * Initialize a redis driver with
  * optional prefix `name` defaulting
  * to "do".
  *
@@ -20,7 +20,7 @@ module.exports = Client;
  * @api public
  */
 
-function Client(name) {
+function Driver(name) {
   this.name = name || 'do';
   this.eventsKey = this.name + ':events';
   this.objectKey = this.name + ':objects:';
@@ -38,7 +38,7 @@ function Client(name) {
  * @api private
  */
 
-Client.prototype.onsubscribe = function(){
+Driver.prototype.onsubscribe = function(){
   this.subscribed = true;
   this.flush();
 };
@@ -49,7 +49,7 @@ Client.prototype.onsubscribe = function(){
  * @api private
  */
 
-Client.prototype.flush = function(){
+Driver.prototype.flush = function(){
   this.buffer.forEach(this.pub.bind(this));
   this.buffer = [];
 };
@@ -62,7 +62,7 @@ Client.prototype.flush = function(){
  * @api public
  */
 
-Client.prototype.load = function(id, fn){
+Driver.prototype.load = function(id, fn){
   var key = this.objectKey + id;
   this._db.get(key, function(err, json){
     if (err) return fn(err);
@@ -80,7 +80,7 @@ Client.prototype.load = function(id, fn){
  * @api public
  */
 
-Client.prototype.save = function(id, obj, fn){
+Driver.prototype.save = function(id, obj, fn){
   fn = fn || function(){};
   var key = this.objectKey + id;
   this._db.set(key, JSON.stringify(obj), fn);
@@ -94,7 +94,7 @@ Client.prototype.save = function(id, obj, fn){
  * @api public
  */
 
-Client.prototype.remove = function(id, fn){
+Driver.prototype.remove = function(id, fn){
   fn = fn || function(){};
   var key = this.objectKey + id;
   this._db.del(key, fn);
@@ -107,7 +107,7 @@ Client.prototype.remove = function(id, fn){
  * @api public
  */
 
-Client.prototype.pub = function(msg){
+Driver.prototype.pub = function(msg){
   if (this.subscribed) {
     msg = JSON.stringify(msg);
     this._pub.publish(this.eventsKey, msg);
@@ -123,7 +123,7 @@ Client.prototype.pub = function(msg){
  * @api public
  */
 
-Client.prototype.sub = function(fn){
+Driver.prototype.sub = function(fn){
   this._sub.on('message', function(chan, msg){
     fn(JSON.parse(msg));
   });

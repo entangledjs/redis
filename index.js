@@ -21,7 +21,7 @@ module.exports = Driver;
  */
 
 function Driver(name) {
-  this.name = name || 'do';
+  this.name = name || 'entangle';
   this.eventsKey = this.name + ':events';
   this.objectKey = this.name + ':objects:';
   this._db = redis.createClient();

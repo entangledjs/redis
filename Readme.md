@@ -1,21 +1,20 @@
 
-# do-redis
+# entangle-redis
 
-  Redis server for __DO__.
+  Redis driver for entangle.
 
 ## Installation
 
 ```
-$ npm install do-redis
+$ npm install entangle-redis
 ```
 
 ## Example
 
 ```js
-var Client = require('do-redis');
-var client = new Client;
-var object = require('do')(client);
-var conf = object('config');
+var Redis = require('entangle-redis');
+var object = require('entangle')(new Redis);
+var config = object('config');
 ```
 
 # License

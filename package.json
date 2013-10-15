@@ -1,0 +1,20 @@
+{
+  "name": "entangle-redis",
+  "version": "0.0.1",
+  "repository": "entanglejs/entangle-redis",
+  "description": "Redis driver for 'entangled' objects",
+  "keywords": [
+    "entangled",
+    "entangle",
+    "redis",
+    "driver"
+  ],
+  "dependencies": {
+    "redis": "~0.8.6"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "license": "MIT"
+}

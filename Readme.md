@@ -18,15 +18,13 @@ var config = object('config');
 ```
 or
 ```js
-var db = require('redis').createClient(),
-    pub = require('redis').createClient(),
-    sub = require('redis').createClient();
-
 var Redis = require('entangle-redis');
 var object = require('entangle')(new Redis({
-    db: db,
-    pub: pub,
-    sub: sub
+    host: 'server.host.name',
+    port: 1234,
+    options: {
+        auth_pass: 'password'
+    }
 }));
 var config = object('config');
 ```

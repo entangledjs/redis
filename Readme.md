@@ -18,9 +18,16 @@ var config = object('config');
 ```
 or
 ```js
-var client = require('redis').createClient();
+var db = require('redis').createClient(),
+    pub = require('redis').createClient(),
+    sub = require('redis').createClient();
+
 var Redis = require('entangle-redis');
-var object = require('entangle')(new Redis({client:client}));
+var object = require('entangle')(new Redis({
+    db: db,
+    pub: pub,
+    sub: sub
+}));
 var config = object('config');
 ```
 

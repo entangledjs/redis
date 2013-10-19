@@ -14,19 +14,24 @@ module.exports = Driver;
 /**
  * Initialize a redis driver with
  * optional prefix `name` defaulting
- * to "do".
+ * to "do" with the given `opts`:
+ *  - `client` redis client (defaults to `redis.createClient()`)
  *
  * @param {String} name
  * @api public
  */
 
-function Driver(name) {
+function Driver(name, opts) {
+  if('object' == typeof name) {
+    name = 'entangle';
+    opts = name;
+  }
   this.name = name || 'entangle';
   this.eventsKey = this.name + ':events';
   this.objectKey = this.name + ':objects:';
-  this._db = redis.createClient();
-  this._pub = redis.createClient();
-  this._sub = redis.createClient();
+  this._db = opts.client || redis.createClient();
+  this._pub = opts.client || redis.createClient();
+  this._sub = opts.client || redis.createClient();
   this._sub.on('subscribe', this.onsubscribe.bind(this));
   this._sub.subscribe(this.eventsKey);
   this.buffer = [];
